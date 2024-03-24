@@ -6,11 +6,16 @@
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
   background-color: #242424;
+  --result-text-color: rgba(255, 255, 255, 0.87);
+  --result-bg: rgba(68, 67, 67, 0.3);
+
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --primary-color: #fee600;
 }
 
 a {
@@ -18,50 +23,142 @@ a {
   color: #646cff;
   text-decoration: inherit;
 }
+
 a:hover {
   color: #535bf2;
 }
 
 body {
   margin: 0;
+  text-align: center;
+}
+
+header {
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  gap: 1rem;
+  background-color: var(--primary-color);
+  padding: .5rem;
+  align-items: center;
+  justify-content: center;
+
+  svg {
+    width: 35px;
+    height: 35px;
+  }
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.breadcrumb {
+  display: flex;
+  list-style-type: none;
+
+  li {
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    &:nth-last-child(n+2)::after {
+      content: ">";
+    }
+  }
 }
 
-button {
-  border-radius: 8px;
+.results-list {
+  list-style-type: none;
+  margin: 0 1rem;
+  padding: 0;
+
+  display: grid;
+  gap: 10px;
+
+}
+
+.result-container {
   border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+  border-radius: 16px;
+
+  transition: border-color ease 200ms;
+
+  &:hover {
+    border: 1px solid var(--primary-color);
+  }
 }
-button:hover {
-  border-color: #646cff;
+
+.result {
+  display: flex;
+  padding: 15px;
+  background-color: var(--result-bg);
+  color: var(--result-text-color);
+
+  gap: 20px;
+
+
+  img {
+    background: #fafafa;
+    border-radius: 15px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    min-width: 150px;
+  }
+
+  .price {
+    text-align: left;
+  }
+
+
+  &:hover {
+    color: var(--result-text-color);
+  }
 }
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+
+
+
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 60px;
+  aspect-ratio: 2;
+  --_g: no-repeat radial-gradient(circle closest-side, #e6e6e6 90%, #cecece00);
+  background:
+    var(--_g) 0% 50%,
+    var(--_g) 50% 50%,
+    var(--_g) 100% 50%;
+  background-size: calc(100%/3) 50%;
+  animation: l3 1s infinite linear;
 }
+
+@keyframes l3 {
+  20% {
+    background-position: 0% 0%, 50% 50%, 100% 50%
+  }
+
+  40% {
+    background-position: 0% 100%, 50% 0%, 100% 50%
+  }
+
+  60% {
+    background-position: 0% 50%, 50% 100%, 100% 0%
+  }
+
+  80% {
+    background-position: 0% 50%, 50% 50%, 100% 100%
+  }
+}
+
 
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
+    --result-text-color: #213547;
     background-color: #ffffff;
+    --result-bg: rgba(205, 207, 208, 0.29);
   }
+
   a:hover {
     color: #747bff;
   }
+
   button {
     background-color: #f9f9f9;
   }

@@ -1,75 +1,33 @@
-import { SetStateAction, useEffect, useState } from "react"
-import { Category, Item, RootObject } from "./types"
+import { Category, RootObject } from "./types"
 import { Result } from "./Result"
-import { json, useLoaderData } from "react-router-dom"
+import { useLoaderData, useNavigation } from "react-router-dom"
+import { Loader } from "./Loader"
 
 export function SearchResults() {
-  const [searchResults, setSearchResults] = useState([])
-  const [categories, setCategories] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(false)
+  const data = useLoaderData() as RootObject
 
-  const data = useLoaderData()
+  const searchResults = data.items
+  const categories = data.categories
+  const navigate = useNavigation()
 
-  console.log(data)
-
-  //       setSearchResults(data.items.slice(0, 4))
-  //       //@ts-ignore
-  //       setCategories(data.categories)
-  //       setLoading(false)
-
-  // useEffect(() => {
-  //   const searchParams = new URLSearchParams(window.location.search)
-  //   const searchQuery = searchParams.get('search')
-
-  //   fetch(`http://localhost:3000/api/items?q=${searchQuery}`)
-  //     .then(res => res.json())
-  //     .then((data: RootObject) => {
-  //       //@ts-ignore
-  //       setSearchResults(data.items.slice(0, 4))
-  //       //@ts-ignore
-  //       setCategories(data.categories)
-  //       setLoading(false)
-  //     })
-  //     .catch(err => {
-  //       setLoading(false)
-  //       setError(err)
-  //     })
-  // }, [])
-
-  if (error) {
-    return (
-      <main>
-        <h2>There was an error in the search</h2>
-      </main>
-    )
-  }
-
-  if (loading)
-    return (
-      <>
-        <div className="loader"></div>
-        <pre>{JSON.stringify(data)}</pre>
-      </>
-    )
+  if (navigate.state === "loading")
+    return <Loader />
 
   return (
-    <>
-      <main>
-        <ul className="breadcrumb">
-          {categories.map((cat: Category) => <li key={`cat-${cat.id}`}>
-            <a href="#">{cat.name}</a>
-          </li>)
-          }
-        </ul>
+    <div className="search-results-main">
+      <ul className="breadcrumb">
+        {categories.map((cat: Category) => <li key={`cat-${cat.id}`}>
+          <a href="#">{cat.name}</a>
+        </li>)
+        }
+      </ul>
 
-        <ul className="results-list">
-          {searchResults.map(result => <li className="result-container">
-            <Result item={result} />
-          </li>)
-          }
-        </ul>
-      </main>
-    </>
+      <ul className="results-list">
+        {searchResults.map(result => <li className="result-container">
+          <Result item={result} />
+        </li>)
+        }
+      </ul>
+    </div>
   )
 }

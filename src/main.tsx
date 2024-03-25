@@ -15,6 +15,13 @@ const router = createBrowserRouter([
     element: <Home />,
     children: [
       {
+        path: '/items/:id',
+        element: <ResultDetails />,
+        loader: async ({ params }) => {
+          return fetch(`http://localhost:3000/api/items/${params.id}`)
+        }
+      },
+      {
         path: '/items',
         element: <Suspense fallback={<>Cargando...</>}>
           <SearchResults />
@@ -24,16 +31,7 @@ const router = createBrowserRouter([
           const searchTerm = url.searchParams.get("search")
     
           return fetch(`http://localhost:3000/api/items?q=${searchTerm}`)
-        },
-        children: [
-          {
-            path: '/items:id',
-            element: <ResultDetails />,
-            loader: async ({ params }) => {
-              return fetch(`https://localhost:3000/api/items/${params.id}`)
-            }
-          }
-        ]
+        }
       }
     ]
   },

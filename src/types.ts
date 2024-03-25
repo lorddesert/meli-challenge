@@ -5,6 +5,8 @@ export interface RootObject {
  }
  
  export interface Author {
+  name: string,
+  lastname: string
  }
  
  export interface Category {
@@ -188,5 +190,39 @@ export interface RootObject {
   ratio:           string;
   thumbnail:       string;
   user_product_id: string;
+ }
+ 
+ export interface GetItemByIDResult {
+  author: Author;
+  item:   ItemByID;
+ }
+ 
+ 
+ export interface ItemByID {
+  categories:    Category[];
+  condition:     string;
+  description:   string;
+  free_shipping: boolean;
+  id:            string;
+  picture:       Picture;
+  price:         Price;
+  sold_quantity: number;
+  title:         string;
+ }
+ 
+ 
+ export interface Picture {
+  id:         string;
+  max_size:   string;
+  quality:    string;
+  secure_url: string;
+  size:       string;
+  url:        string;
+ }
+ 
+ export interface Price {
+  amount:   number;
+  currency: string;
+  decimals: number;
  }
  
